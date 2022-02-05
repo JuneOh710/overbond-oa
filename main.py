@@ -57,8 +57,8 @@ def main() -> int:
         print("Usage:\n\tPass both the file name to parse and output.\n\tpython3 main.py <input>.txt <output>.csv")
         return 0
     else:
-        input_file_name = sys.argv[1]
-        output_file_name = sys.argv[2]
+        input_file_name = f"./input/{sys.argv[1]}"
+        output_file_name = f"./output/{sys.argv[2]}"
 
     input_file = open(input_file_name, 'r')
     data_list = input_file.readlines()
