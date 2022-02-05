@@ -1,11 +1,13 @@
 import sys
+import pandas as pd
+import matplotlib.pyplot as plt
 
 
 def list_to_csv(l: list) -> str:
     csv = ""
     for element in l:
-        csv += element + ", "
-    return csv.rstrip(", ") + '\n'
+        csv += element + ","
+    return csv.rstrip(",") + '\n'
 
 
 def extract_prefix(s: str) -> str:
@@ -35,10 +37,24 @@ def process_prefix(s: str, prefix: str) -> str:
     return s
 
 
+def plot_data(file_name: str):
+    df = pd.read_csv(file_name, parse_dates=True)
+    fig = plt.figure()
+    ax1 = fig.add_subplot(111)
+    ax1.scatter(x=df["Insurance Date"],
+                y=df["CleanBid"], s=10, c='r', label='CleanBid')
+    ax1.scatter(x=df["Insurance Date"],
+                y=df["CleanAsk"], s=10, c='g', label='CleanAsk')
+    ax1.scatter(x=df["Insurance Date"],
+                y=df["Last Price"], s=10, c='b', label='Last Price')
+    plt.legend(loc='upper left')
+    plt.show()
+
+
 def main() -> int:
     # check for command line arguments
     if len(sys.argv) != 3:
-        print("Usage:\n\tPass both the file name to parse and output.\n\tpython3 main.py <input> <output>")
+        print("Usage:\n\tPass both the file name to parse and output.\n\tpython3 main.py <input>.txt <output>.csv")
         return 0
     else:
         input_file_name = sys.argv[1]
@@ -47,7 +63,7 @@ def main() -> int:
     input_file = open(input_file_name, 'r')
     data_list = input_file.readlines()
     output_file = open(output_file_name, 'w')
-    output_file.write("Issuance Date, CleanBid, CleanAsk, Last Price\n")
+    output_file.write("Insurance Date,CleanBid,CleanAsk,Last Price\n")
     code_to_column = {"DIs": 0, "BPr": 1, "APl": 2, "Pl": 3}
     row = [0, 0, 0, 0]
     for i in range(len(data_list)):
@@ -65,6 +81,7 @@ def main() -> int:
 
     input_file.close()
     output_file.close()
+    plot_data(output_file_name)
     return 1
 
 
