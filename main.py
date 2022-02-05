@@ -21,6 +21,20 @@ def extract_prefix(s: str) -> str:
     return prefix
 
 
+def process_prefix(s: str, prefix: str) -> str:
+    s = s.lstrip(prefix)
+    month_names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    if prefix == "DIs":
+        # process insurance date
+        year = s[0:4]
+        month = month_names[int(s[4:6].lstrip("0"))]
+        day = s[6:]
+        s = f"{year}-{month}-{day}"
+
+    return s
+
+
 def main() -> int:
     # check for command line arguments
     if len(sys.argv) != 3:
@@ -34,12 +48,7 @@ def main() -> int:
     data_list = input_file.readlines()
     output_file = open(output_file_name, 'w')
     output_file.write("Issuance Date, CleanBid, CleanAsk, Last Price\n")
-    code_to_column = {
-        "DIs": 0,
-        "BPr": 1,
-        "APl": 2,
-        "Pl": 3
-    }
+    code_to_column = {"DIs": 0, "BPr": 1, "APl": 2, "Pl": 3}
     row = [0, 0, 0, 0]
     for i in range(len(data_list)):
         line = data_list[i]
@@ -47,7 +56,8 @@ def main() -> int:
         line = line.split()
         for s in line:
             prefix = extract_prefix(s)
-            row[code_to_column[prefix]] = s.lstrip(prefix)
+            if prefix != "":
+                row[code_to_column[prefix]] = process_prefix(s, prefix)
 
         if (i+1) % 10 == 0:
             # write to output at the end of each entry (10 rows)
