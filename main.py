@@ -51,15 +51,7 @@ def plot_data(file_name: str):
     plt.show()
 
 
-def main() -> int:
-    # check for command line arguments
-    if len(sys.argv) != 3:
-        print("Usage:\n\tPass both the file name to parse and output.\n\tpython3 main.py <input>.txt <output>.csv")
-        return 0
-    else:
-        input_file_name = f"./input/{sys.argv[1]}"
-        output_file_name = f"./output/{sys.argv[2]}"
-
+def write_to_csv(input_file_name: str, output_file_name: str):
     input_file = open(input_file_name, 'r')
     data_list = input_file.readlines()
     output_file = open(output_file_name, 'w')
@@ -81,6 +73,18 @@ def main() -> int:
 
     input_file.close()
     output_file.close()
+
+
+def main() -> int:
+    # check for command line arguments
+    if len(sys.argv) != 3:
+        print("Usage:\n\tPass both the file name to parse and output.\n\tpython3 main.py <input>.txt <output>.csv")
+        return 0
+    else:
+        input_file_name = f"./input/{sys.argv[1]}"
+        output_file_name = f"./output/{sys.argv[2]}"
+
+    write_to_csv(input_file_name, output_file_name)
     plot_data(output_file_name)
     return 1
 
