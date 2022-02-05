@@ -4,6 +4,7 @@ A program that summarizes an unstructured data file and generates a csv file wit
 ## Installation of Libraries
 Run:
 `pip install pandas`
+
 `pip install matplotlib`
 
 ## Running the Code
