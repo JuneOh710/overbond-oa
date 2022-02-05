@@ -11,7 +11,7 @@ Run:
 ## Running the Code
 Run:
 
-`python3 main.py {your_input_file.txt} {your_output_file.csv}' to run the script and generate a CSV file, which will be plotted.
+`python3 main.py {your_input_file.txt} {your_output_file.csv}` to run the script and generate a CSV file, which will be plotted.
 
 ## Examples
 `python3 main.py sample.txt output.csv`
